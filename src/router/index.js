@@ -5,7 +5,7 @@ import loadingBar from '@/components/ui-loading-bar'
 // import {commonRoutes} from './routes.js'
 Vue.use(Router)
 const router = new Router({
-  mode: 'history',
+  // mode: 'history',
   // routes: commonRoutes,
   routes: routes
 })

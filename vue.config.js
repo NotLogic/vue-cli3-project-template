@@ -30,6 +30,7 @@ module.exports = {
       'vuex': 'Vuex',
       'axios': 'axios',
       'element-ui': 'ELEMENT',
+      // 'iView': 'iView',
     }
   }
 }

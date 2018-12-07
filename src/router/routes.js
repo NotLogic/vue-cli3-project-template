@@ -4,7 +4,13 @@ const loginRoute = {
   name: 'login',
   component: resolve => { require(['@/pages/login'], resolve) }
 }
+
 export const mainRoutes = [
+  {
+    path: '/',
+    name: '',
+    component: resolve => { require(['@/pages/index'], resolve) },
+  }
   // {
   //   path: '/',
   //   name: 'common',
@@ -19,6 +25,11 @@ export const mainRoutes = [
   //   ]
   // },
 ]
+
+export const appRoutes = [
+
+]
+
 export const errorRoutes = [
   {
     path: '/404',
@@ -34,6 +45,7 @@ export const errorRoutes = [
 const routes = [
   loginRoute,
   ...mainRoutes,
+  ...appRoutes,
   ...errorRoutes
 ]
 export const commonRoutes = [loginRoute, ...errorRoutes]

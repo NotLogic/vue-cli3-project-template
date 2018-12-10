@@ -47,8 +47,8 @@ http.interceptors.response.use(
   function(error) {
     // Do something with response error
     if (error && error.response) {
-      var errorCodeTxtMap = {
-        0: '请求错误',
+      var map = {
+        'default': '请求错误',
         400: '请求错误',
         401: '未授权，请进行授权',
         403: '拒绝访问',
@@ -61,47 +61,10 @@ http.interceptors.response.use(
         504: '网关超时',
         505: 'HTTP版本不受支持',
       }
-      var errorCode = 0
-      switch (error.response.status) {
-        case 400:
-          errorCode = 400
-          break			
-        case 401:
-          errorCode = 401
-          break			
-        case 403:
-          errorCode = 403
-          break			
-        case 404:
-          errorCode = 404
-          break			
-        case 408:
-          errorCode = 408
-          break			
-        case 500:
-          errorCode = 500
-          break			
-        case 501:
-          errorCode = 501
-          break			
-        case 502:
-          errorCode = 502
-          break			
-        case 503:
-          errorCode = 503
-          break			
-        case 504:
-          errorCode = 504
-          break			
-        case 505:
-          errorCode = 505
-          break			
-        default: errorCode = 0
-      }
-      var errTxt = errorCodeTxtMap[errorCode] ? errorCodeTxtMap[errorCode] : errorCodeTxtMap[0]
+      var txt = map[error.response.status] ? map[error.response.status] : map['default']
       Message.error({
         showClose: true,
-        message: errTxt,
+        message: txt,
         type: 'error'
       })
     }

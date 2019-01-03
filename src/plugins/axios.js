@@ -61,7 +61,7 @@ http.interceptors.response.use(
         504: '网关超时',
         505: 'HTTP版本不受支持',
       }
-      var txt = map[error.response.status] ? map[error.response.status] : map['default']
+      var txt = map[error.response.status] || map['default']
       Message.error({
         showClose: true,
         message: txt,

@@ -4,6 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const PORT = 1314
 const HOST = '0.0.0.0'
+const PROJECT_FILENAME = 'dist'
 const types = {
   "html": "text/html",
   "htm": "text/html",
@@ -116,40 +117,35 @@ const types = {
 http.createServer(function (request, response) {
   var pathName = url.parse(request.url).pathname
   pathName = pathName == '/' ? '/index.html' : pathName
-  var realPath = decodeURI(path.join("dist", pathName));
-  if (pathName == '/favicon.ico') {
-
-  } else {
-    fs.stat(realPath, function (err, stats) {
-      if (err) {
-        response.writeHead(404, {
-          'Content-Type': types.txt
-        })
-        response.write("This request URL " + pathName + " was not found on this server.")
+  var realPath = decodeURI(path.join(PROJECT_FILENAME, pathName));
+  fs.stat(realPath, function (err, stats) {
+    if (err) {
+      response.writeHead(404, {
+        'Content-Type': types.txt
+      })
+      response.write("This request URL " + pathName + " was not found on this server.")
+      response.end()
+    } else {
+      var type = pathName.split('.')[pathName.split('.').length - 1]
+      // console.log('file-path: ',realPath)
+      // console.log('file-type: ',type)
+      fs.readFile(realPath, function (err, data) {
+        if (err) {
+          response.writeHead(500, {
+            'Content-Type': types.txt
+          })
+          response.end(err)
+        } else {
+          var headerType = types[type] || types.txt
+          response.writeHead(200, {
+            'Content-Type': headerType
+          })
+          response.write(data, 'binary')
+        }
         response.end()
-      } else {
-        var type = pathName.split('.')[pathName.split('.').length - 1]
-        // console.log('file-path: ',realPath)
-        // console.log('file-type: ',type)
-        fs.readFile(realPath, function (err, data) {
-          if (err) {
-            response.writeHead(500, {
-              'Content-Type': types.txt
-            })
-            response.end(err)
-          } else {
-            var headerType = types[type] || types.txt
-            response.writeHead(200, {
-              'Content-Type': headerType
-            })
-            response.write(data, 'binary')
-          }
-          response.end()
-        })
-      }
-    })
-  }
-
+      })
+    }
+  })
 }).listen(PORT, HOST, function(){
   console.log("Server runing at port: " + PORT + ".");  
 })
